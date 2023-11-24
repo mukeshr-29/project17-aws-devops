@@ -1,0 +1,35 @@
+version: 0.2
+
+env:
+  #variables:
+     # key: "value"
+     # key: "value"
+  parameter-store:
+      DOCKER_REGISTRY_USERNAME : "/docker-credentials/username"
+      DOCKER_REGISTRY_PASSWORD : "/docker-credentials/password"
+      DOCKER_REGISTRY_URL : "/docker-registry/url"
+phases:
+  install:
+    runtime-versions:
+       nodejs: 18
+       dotnet: 6.0
+       golang: 1.20
+       java: corretto17
+       php: 8.2
+       python: 3.11
+       ruby: 3.2
+  pre_build:
+    commands:
+      - sudo apt update
+      - sudo apt install -y npm 
+      # - command
+  build:
+    commands:
+       - echo "build docker img"
+       - echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
+       - docker build -t "$DOCKER_REGISTRY_USERNAME/2048-game:latest" .
+       - docker push "$DOCKER_REGISTRY_USERNAME/2048-game:latest"
+
+  post_build:
+    commands:
+       - echo "build is success"
