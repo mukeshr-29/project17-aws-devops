@@ -34,8 +34,8 @@ phases:
     commands:
        - echo "build is success"
 artifacts:
-  files:
-    - '**/*'
-  base-directory: ../2048-game
+  files: dist/**/*
+
+
 
 
