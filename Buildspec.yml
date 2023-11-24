@@ -34,7 +34,9 @@ phases:
     commands:
        - echo "build is success"
 artifacts:
-  files: dist/**/*
+  files:
+    - '**/*'
+  base-directory: .
 
 
 
